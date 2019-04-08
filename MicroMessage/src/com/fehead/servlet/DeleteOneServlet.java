@@ -2,29 +2,26 @@ package com.fehead.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fehead.bean.Message;
 import com.fehead.service.ListService;
+import com.fehead.service.MaintainService;
 
+/**
+ * 单条删除控制层
+ *
+ */
 @SuppressWarnings("serial")
-public class ListServlet extends HttpServlet {
+public class DeleteOneServlet extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public ListServlet() {
+	public DeleteOneServlet() {
 		super();
 	}
 
@@ -47,25 +44,17 @@ public class ListServlet extends HttpServlet {
 		 * @throws IOException if an error occurred
 		 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+
 		//设置编码格式
 		request.setCharacterEncoding("UTF-8");
-		//接收command和description
-		String command = request.getParameter("command");
-		String description = request.getParameter("description");
-		
-		//设置request中的command和description对象
-		request.setAttribute("command", command);
-		request.setAttribute("description", description);
-		
-		
+		//接收id
+		String id = request.getParameter("id");
 		//调用service层
-		ListService listService = new ListService();
-		
-		request.setAttribute("messageList", listService.queryMessageList(command, description));
+		MaintainService maintainService = new MaintainService();
+		maintainService.deleteOne(id);
 			
-		request.getRequestDispatcher("/WEB-INF/jsps/back/list.jsp").forward(request,response);
+		request.getRequestDispatcher("/List.action").forward(request,response);
+	
 	}
 
 	/**

@@ -24,11 +24,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<tr>
 								<td width="90" align="right">指令名称</td>
 								<td>
-									<input name="command" type="text" class="allInput" value=""/>
+									<input name="command" type="text" class="allInput" value="${command }"/>
 								</td>
 								<td width="90" align="right">描述</td>
 								<td>
-									<input name="description" type="text" class="allInput" value=""/>
+									<input name="description" type="text" class="allInput" value="${description }"/>
 								</td>
 	                            <td width="85" align="right"><input type="submit" class="tabSub" value="查 询" /></td>
 	       					</tr>
@@ -37,14 +37,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="zixun fix">
 						<table class="tab2" width="100%">
 							<tbody>
-							<!--未使用jstl前
+							
 								<tr>
 								    <th><input type="checkbox" id="all" onclick="#"/></th>
 								    <th>序号</th>
-								    <th>演示字段1</th>
-								    <th>演示字段2</th>
+								    <th>指令名称</th>
+								    <th>描述</th>
 								    <th>操作</th>
 								</tr>
+							<!--未使用jstl前
 								<tr>
 									<td><input type="checkbox" /></td>
 									<td>1</td>
@@ -99,7 +100,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${message.description }</td>
 									<td>
 										<a href="#">修改</a>&nbsp;&nbsp;&nbsp;
-										<a href="#">删除</a>
+										<a href="<%=basePath%>DeleteOneServlet.action?
+										id=${message.id }">删除</a>
+										<!-- 使用不了message.id -->
 									</td>
 								</tr>								
 							</c:forEach>
