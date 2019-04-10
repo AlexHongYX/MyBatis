@@ -36,7 +36,7 @@
 	<!-- select标签的id为select的唯一标识，resultMap为resultMap的标识 -->
 	<!-- 配置查询 -->
   <select id="queryMessageList" parameterType="com.fehead.bean.Message" resultMap="MessageResult">
-    SELECT COMMAND,DESCRIPTION,CONTENT from message
+    SELECT ID,COMMAND,DESCRIPTION,CONTENT from message
     <where>
 	    <if test="command!=null&amp;&amp;!&quot;&quot;.equals(command.trim())"> 
 	    	and COMMAND=#{command}</if>

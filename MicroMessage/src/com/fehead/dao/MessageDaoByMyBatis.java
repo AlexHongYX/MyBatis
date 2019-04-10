@@ -18,6 +18,7 @@ public class MessageDaoByMyBatis {
 		DBAccess dbAccess = new DBAccess();
 		List<Message> messageList = new ArrayList<Message>();
 		SqlSession sqlSession = null;
+		//定义这个message是为了根据command和description进行查询
 		Message message = new Message();
 		message.setCommand(command);
 		message.setDescription(description);
@@ -63,7 +64,7 @@ public class MessageDaoByMyBatis {
 	}
 	
 	/**
-	 * 多条删除记录
+	 * 批量删除记录
 	 */
 	public void deleteBatch(List<Integer> ids){
 		DBAccess dbAccess = new DBAccess();

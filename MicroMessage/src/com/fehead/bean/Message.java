@@ -7,15 +7,16 @@ package com.fehead.bean;
  */
 public class Message {
 	
-	private int id;
+	private String id;
 	private String command;
 	private String description;
 	private String content;
 	
-	public int getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getCommand() {
@@ -36,11 +37,4 @@ public class Message {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	@Override
-	public String toString() {
-		return "Message [id=" + id + ", command=" + command + ", description=" + description + ", content=" + content
-				+ "]";
-	}
-	
-	
 }

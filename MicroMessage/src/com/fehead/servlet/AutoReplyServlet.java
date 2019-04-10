@@ -2,29 +2,26 @@ package com.fehead.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.management.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fehead.bean.Message;
 import com.fehead.service.QueryService;
 
+/**
+ * 自动回复控制层
+ *
+ */
 @SuppressWarnings("serial")
-public class ListServlet extends HttpServlet {
+public class AutoReplyServlet extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public ListServlet() {
+	public AutoReplyServlet() {
 		super();
 	}
 
@@ -47,26 +44,13 @@ public class ListServlet extends HttpServlet {
 		 * @throws IOException if an error occurred
 		 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		//设置编码格式
-		request.setCharacterEncoding("UTF-8");
-		//接收command和description
-		String command = request.getParameter("command");
-		String description = request.getParameter("description");
-		
-		//设置request中的command和description对象
-		request.setAttribute("command", command);
-		request.setAttribute("description", description);
-		
-		
-		//调用service层
-		QueryService listService = new QueryService();
-		
-		request.setAttribute("messageList", listService.queryMessageList(command, description));
-			
-		//向页面跳转
-		request.getRequestDispatcher("/WEB-INF/jsps/back/list.jsp").forward(request,response);
+
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		QueryService queryService = new QueryService();
+		out.write(queryService.queryByCommand(request.getParameter("content")));
+		out.flush();
+		out.close();
 	}
 
 	/**

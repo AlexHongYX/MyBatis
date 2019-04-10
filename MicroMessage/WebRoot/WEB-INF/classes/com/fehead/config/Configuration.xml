@@ -50,6 +50,8 @@
 <!-- 在mappers中初始化所有的配置文件 -->
   <mappers>
     <mapper resource="com/fehead/config/sqlxml/Message.xml"/>
+    <mapper resource="com/fehead/config/sqlxml/Command.xml"/>
+    <mapper resource="com/fehead/config/sqlxml/CommandContent.xml"/>
   </mappers>
 
 </configuration>

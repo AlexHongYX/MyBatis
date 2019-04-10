@@ -1,5 +1,6 @@
 package com.fehead.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fehead.dao.MessageDaoByMyBatis;
@@ -24,9 +25,15 @@ public class MaintainService {
 	/**
 	 * 多条记录删除
 	 */
-	public void deleteBatch(List<Integer> ids){
+	public void deleteBatch(String[] ids){
 		
 		MessageDaoByMyBatis messageDaoByMyBatis = new MessageDaoByMyBatis();
-		messageDaoByMyBatis.deleteBatch(ids);
+		List<Integer> idList = new ArrayList<Integer>();
+		for (String id : ids) {
+			idList.add(Integer.valueOf(id));
+		}
+		messageDaoByMyBatis.deleteBatch(idList);
 	}
+	
+	/*记录更新*/
 }
