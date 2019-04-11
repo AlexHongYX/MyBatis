@@ -59,4 +59,9 @@
   	)
   </delete>
   
+  <!-- 实现单个更新 -->
+  <update id="updateOne" parameterType="com.fehead.bean.UpdateMessage">
+  	update message set DESCRIPTION=#{description} where COMMAND=#{command}
+  </update>
+  
 </mapper>

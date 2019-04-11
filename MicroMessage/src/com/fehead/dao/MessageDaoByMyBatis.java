@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fehead.bean.Message;
+import com.fehead.bean.UpdateMessage;
 import com.fehead.db.DBAccess;
 
 public class MessageDaoByMyBatis {
@@ -40,6 +41,31 @@ public class MessageDaoByMyBatis {
 	}
 	
 	/**
+	 * 批量删除记录
+	 */
+	public void deleteBatch(List<Integer> ids){
+		DBAccess dbAccess = new DBAccess();
+		
+		SqlSession sqlSession = null;
+		
+		try {
+			sqlSession = dbAccess.getSqlSession();
+			//通过sqlSession执行SQL语句
+				//通过Message.deleteOne删除ID=id的记录
+			sqlSession.delete("Message.deleteBatch",ids);
+			sqlSession.commit();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if(sqlSession!=null){
+				sqlSession.close();
+			}
+		}
+	}
+	
+	
+	/**
 	 * 单条删除记录
 	 */
 	public void deleteOne(int id){
@@ -63,19 +89,22 @@ public class MessageDaoByMyBatis {
 		}
 	}
 	
-	/**
-	 * 批量删除记录
-	 */
-	public void deleteBatch(List<Integer> ids){
+	/*
+	 * 单条记录修改
+	 * */
+	public void updateOne(String command,String description){
 		DBAccess dbAccess = new DBAccess();
 		
 		SqlSession sqlSession = null;
+		UpdateMessage updateMessage = new UpdateMessage();
+		updateMessage.setCommand(command);
+		updateMessage.setDescription(description);
 		
 		try {
 			sqlSession = dbAccess.getSqlSession();
 			//通过sqlSession执行SQL语句
 				//通过Message.deleteOne删除ID=id的记录
-			sqlSession.delete("Message.deleteBatch",ids);
+			sqlSession.update("Message.updateOne",updateMessage);
 			sqlSession.commit();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -11,7 +11,7 @@ import com.fehead.dao.CommandDaoByMyBatis;
 //import com.fehead.dao.MessageDao;
 import com.fehead.dao.MessageDaoByMyBatis;
 import com.fehead.util.Iconst;
-import com.sun.mail.handlers.message_rfc822;
+
 
 /**
  * @author xiaoaxiao

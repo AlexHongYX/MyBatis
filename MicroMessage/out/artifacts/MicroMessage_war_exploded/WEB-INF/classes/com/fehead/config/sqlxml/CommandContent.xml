@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="CommandContent">
+	<!-- 使用resultMap将数据库中的字段与Java对象的属性一一对应起来 -->
+	<resultMap type="com.fehead.bean.CommandContent" id="CommandContentResult">
+		<id column="ID" jdbcType="INTEGER" property="id"></id>
+		<result column="CONTENT" jdbcType="VARCHAR" property="content"></result>
+		<result column="COMMAND_ID" jdbcType="VARCHAR" property="command_id"></result>
+	</resultMap>
+
+</mapper>
