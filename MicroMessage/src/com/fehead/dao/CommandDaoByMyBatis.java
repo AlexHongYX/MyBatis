@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fehead.bean.CommandContent;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fehead.bean.Command;
@@ -41,5 +42,33 @@ public class CommandDaoByMyBatis {
 			
 		}
 		return commandList;
+	}
+
+	/**
+	 * 添加指定列表
+	 */
+	public void insertOne(String name, String description, List<CommandContent> commandContentList){
+		DBAccess dbAccess = new DBAccess();
+		SqlSession sqlSession = null;
+
+		Command command = new Command();
+		command.setName(name);
+		command.setDescription(description);
+		command.setContentList(commandContentList);
+
+		try {
+			sqlSession = dbAccess.getSqlSession();
+			//通过sqlSession执行SQL语句
+			//通过Message.queryMessageList访问Message空间中id为queryMessageList的select
+			sqlSession.selectList("Command.insertList",command);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if(sqlSession!=null){
+				sqlSession.close();
+			}
+
+		}
 	}
 }

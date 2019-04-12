@@ -23,6 +23,13 @@ public class CommandContent {
 	public void setCommand_id(String command_id) {
 		this.command_id = command_id;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "CommandContent{" +
+				"id='" + id + '\'' +
+				", content='" + content + '\'' +
+				", command_id='" + command_id + '\'' +
+				'}';
+	}
 }

@@ -1,7 +1,13 @@
 package com.fehead.servlet;
 
+import com.fehead.bean.Command;
+import com.fehead.bean.CommandContent;
+import com.fehead.service.MaintainService;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,10 +43,27 @@ public class InsertOneServlet extends HttpServlet {
 		 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("UTF-8");
 		
-		String command = request.getParameter("command");
+		String name = request.getParameter("name");
 		String description = request.getParameter("description");
+		CommandContent commandContent1 = new CommandContent();
+		CommandContent commandContent2 = new CommandContent();
+		commandContent1.setContent(request.getParameter("content1"));
+		commandContent2.setContent(request.getParameter("content2"));
+
+		List<CommandContent> commandContentList = new ArrayList<>();
+		commandContentList.add(commandContent1);
+		commandContentList.add(commandContent2);
+
+		for(CommandContent commandContent:commandContentList){
+			System.out.println(commandContent);
+		}
+
+		MaintainService maintainService = new MaintainService();
+		maintainService.insertOne(name,description,commandContentList);
+
+		request.getRequestDispatcher("/List.action").forward(request,response);
 		
 	}
 

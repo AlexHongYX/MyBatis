@@ -10,7 +10,7 @@
     <id column="a_id" jdbcType="INTEGER" property="id"/>
     <result column="NAME" jdbcType="VARCHAR" property="name"/>
     <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
-    <collection property="contentList" resultMap="CommandContent.CommandContentResult"></collection>
+    <collection property="contentList" resultMap="CommandContent.CommandContentResult"/>
   </resultMap>
   
   <select id="queryCommandList" parameterType="com.fehead.bean.Command" resultMap="CommandResult">
@@ -24,6 +24,13 @@
   			and a.DESCRIPTION like '%' #{description} '%'
   		</if>
   	</where>
-  	
-  </select>  
+  </select>
+
+	<insert id="insertList" useGeneratedKeys="true" keyProperty="id" parameterType="com.fehead.bean.Command">
+	INSERT into COMMAND(NAME,DESCRIPTION) values (#{name},#{description})
+	INSERT into COMMAND_CONTENT(CONTENT) values
+	<foreach collection="contentList" item = "commandContent" index="index" separator=",">
+		(#{commandContent.content})
+	</foreach>
+	</insert>
 </mapper>

@@ -3,6 +3,9 @@ package com.fehead.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fehead.bean.Command;
+import com.fehead.bean.CommandContent;
+import com.fehead.dao.CommandDaoByMyBatis;
 import com.fehead.dao.MessageDaoByMyBatis;
 
 /**
@@ -34,12 +37,24 @@ public class MaintainService {
 		}
 		
 	}
-	
-	/*记录更新*/
+
+	/**
+	 * 记录更新
+	 */
 	public void updateOne(String command,String description){
 		if(description!=null&&!"".equals(description.trim())){
 			MessageDaoByMyBatis messageDaoByMyBatis = new MessageDaoByMyBatis();
 			messageDaoByMyBatis.updateOne(command, description);
+		}
+	}
+
+	/**
+	 * 记录插入
+	 */
+	public void insertOne(String name, String description, List<CommandContent> commandContentList){
+		if(name!=null&&!"".equals(name.trim())&&description!=null&&!"".equals(description.trim())){
+			CommandDaoByMyBatis commandDaoByMyBatis = new CommandDaoByMyBatis();
+			commandDaoByMyBatis.insertOne(name,description,commandContentList);
 		}
 	}
 }

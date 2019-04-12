@@ -23,24 +23,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <form>
+    <form action="<%=basePath%>InsertOneServlet.action">
     	<tr>
     		<td>指令名称：</td>
-    		<td><input type="text" name="command" value=""/></td>
+    		<td><input type="text" name="name" value=""/></td>
     	</tr>
     	<tr>
     		<td>描述：</td>
     		<td><input type="text" name="description" value=""/></td>
     	</tr>
+		<h3>段子</h3>
+		<br/>
+		<tr>
+			<td>内容1：</td>
+			<td><input type="text" name="content1" value=""/></td>
+		</tr>
+		<tr>
+			<td>内容2：</td>
+			<td><input type="text" name="content2" value=""/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="submit" value="提交"/></td>
+		</tr>
     </form>
-    <br/>
-    <h3>段子</h3>
-    <c:forEach items="${contentList }" var="commandContent" 
-								varStatus="status">	
-								<tr>							
-									<td>${commandContent.content }</td>		
-								</tr>	
-								<br/>							
-							</c:forEach>
+
+
   </body>
 </html>

@@ -35,6 +35,10 @@
     <servlet-name>UpdateOneServlet</servlet-name>
     <servlet-class>com.fehead.servlet.UpdateOneServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>InsertOneServlet</servlet-name>
+    <servlet-class>com.fehead.servlet.InsertOneServlet</servlet-class>
+  </servlet>
 
   <!-- 配置一个jsp跳转的servlet -->
   <!-- 修改页面 -->
@@ -52,17 +56,10 @@
   	<servlet-name>insert</servlet-name>
   	<jsp-file>/WEB-INF/jsps/back/insert.jsp</jsp-file>
   </servlet>
-  <servlet>
-    <servlet-name>InsertOneServlet</servlet-name>
-    <display-name>This is the display name of my J2EE component</display-name>
-    <description>This is the description of my J2EE component</description>
-    <servlet-class>com.fehead.servlet.InsertOneServlet</servlet-class>
-  </servlet>
-
   <servlet-mapping>
   	<servlet-name>insert</servlet-name>
   	<url-pattern>/insert</url-pattern>
-  </servlet-mapping>
+</servlet-mapping>
 
 
 
