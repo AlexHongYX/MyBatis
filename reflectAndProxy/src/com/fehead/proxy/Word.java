@@ -1,3 +1,5 @@
+package com.fehead.proxy;
+
 public class Word implements Office {
 
     @Override
