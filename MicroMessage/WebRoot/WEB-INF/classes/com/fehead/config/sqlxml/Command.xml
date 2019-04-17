@@ -26,11 +26,13 @@
   	</where>
   </select>
 
-	<insert id="insertList" useGeneratedKeys="true" keyProperty="id" parameterType="com.fehead.bean.Command">
+	<!--需要插入一对多关联表-->
+	<insert id="insertList" useGeneratedKeys="true" keyProperty="id"
+			parameterType="com.fehead.bean.Command">
 	INSERT into COMMAND(NAME,DESCRIPTION) values (#{name},#{description})
-	INSERT into COMMAND_CONTENT(CONTENT) values
+	INSERT into COMMAND_CONTENT(CONTENT,COMMAND_ID) values
 	<foreach collection="contentList" item = "commandContent" index="index" separator=",">
-		(#{commandContent.content})
+		(#{commandContent.content},#{id})
 	</foreach>
 	</insert>
 </mapper>

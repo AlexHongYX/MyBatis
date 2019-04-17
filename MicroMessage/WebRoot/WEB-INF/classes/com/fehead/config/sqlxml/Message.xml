@@ -20,8 +20,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Message">	<!-- 起一个namespace（必须要有），避免两个不同的space中select
+<!--<mapper namespace="Message">	 起一个namespace（必须要有），避免两个不同的space中select
 		的id重复 -->
+<mapper namespace="com.fehead.dao.IMessage">
 
 	<!-- 将数据库中的字段与Java对象的属性对应起来 ——对应关系-->
 	<!-- type为接收数据库中字段的Java对象的类型 -->
@@ -44,13 +45,65 @@
 	  		and DESCRIPTION like '%' #{description} '%'</if>
     </where>
   </select>
-  
-  <!-- 配置单个删除 -->
+
+    <!--添加id为count的操作，和IMessage对应起来，根据查询条件查询消息列表的总条数
+        通过resultType直接返回java类型，不需要通过resultMap配置类型属性关系
+    -->
+
+    <select id="count"  parameterType="com.fehead.bean.Message" resultType="int">
+        select count(*) from MESSAGE
+        <where>
+            <if test="command != null and !&quot;&quot;.equals(command.trim())">
+                and COMMAND=#{command}
+            </if>
+            <if test="description != null and !&quot;&quot;.equals(description.trim())">
+                and DESCRIPTION like '%' #{description} '%'
+            </if>
+        </where>
+    </select>
+
+    <!--添加一段sql定义普通常量-->
+    <sql id="columns">ID,COMMAND,DESCRIPTION,CONTENT</sql>
+
+    <!--拦截器实现分页-->
+    <select id="queryMessageListByPage" parameterType="java.util.Map" resultMap="MessageResult">
+        <!--刚才使用sql定义普通常量-->
+        select <include refid="columns"/> from MESSAGE
+        <where>
+            <if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">
+                and COMMAND=#{message.command}
+            </if>
+            <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">
+                and DESCRIPTION like '%' #{message.description} '%'
+            </if>
+        </where>
+        order by ID
+    </select>
+
+    <!--未实现拦截器分页-->
+    <!-- 添加id为queryMessageListByPage的操作，和IMessage对应起来，根据查询条件分页查询消息列表-->
+    <!--<select id="queryMessageListByPage" parameterType="java.util.Map" resultMap="MessageResult">-->
+        <!--&lt;!&ndash;刚才使用sql定义普通常量&ndash;&gt;-->
+        <!--select <include refid="columns"/> from MESSAGE-->
+        <!--<where>-->
+            <!--<if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">-->
+                <!--and COMMAND=#{message.command}-->
+            <!--</if>-->
+            <!--<if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">-->
+                <!--and DESCRIPTION like '%' #{message.description} '%'-->
+            <!--</if>-->
+        <!--</where>-->
+        <!--order by ID limit #{page.dbIndex},#{page.dbNumber}-->
+    <!--</select>-->
+
+
+  <!-- 配置单个删除
   <delete id="deleteOne" parameterType="int">
   	delete from message where ID=#{_parameter}
   </delete>
-  
-  <!-- 配置批量删除 -->
+  -->
+
+  <!-- 配置批量删除
   <delete id="deleteBatch" parameterType="java.util.List">
   	delete from message where ID in (
   		<foreach collection="list" item="item" separator=",">
@@ -58,10 +111,12 @@
   		</foreach>
   	)
   </delete>
-  
-  <!-- 实现单个更新 -->
+  -->
+
+  <!-- 实现单个更新
   <update id="updateOne" parameterType="com.fehead.bean.UpdateMessage">
   	update message set DESCRIPTION=#{description} where COMMAND=#{command}
   </update>
-  
+  -->
+
 </mapper>
