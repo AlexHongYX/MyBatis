@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2009-2012 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间 -->
+<mapper namespace="com.example.sports.dao.AthletesInterface">
+
+
+  <resultMap type="com.example.sports.bean.Athletes" id="AthletesResult">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+     <result column="sex" jdbcType="VARCHAR" property="sex"/>
+    <result column="stu_num" jdbcType="VARCHAR" property="stuNum"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="college_id" jdbcType="INTEGER" property="collegeId"/>
+    <result column="class_name" jdbcType="VARCHAR" property="className"/>
+    <result column="isteam" jdbcType="INTEGER" property="isTeam"/>
+  </resultMap>
+  <select id="queryAthleteByStuNum" parameterType="com.example.sports.bean.Athletes" resultMap="AthletesResult">
+    select id, stu_num, name, sex, college_id, class_name, isteam from athletes where stu_num = #{stuNum}
+ </select>
+ <select id="queryAthleteByName" parameterType="com.example.sports.bean.Athletes" resultMap="AthletesResult">
+    select id, stu_num, name, sex, college_id, class_name, isteam from athletes where name = #{name}
+ </select>
+ <select id="queryAthletesList" resultMap="AthletesResult">
+    select id, stu_num, name, sex, college_id, class_name, isteam from athletes order by id
+ </select>
+ <select id="queryAthletesListByMatchProject" parameterType="com.example.sports.bean.MatchProject" resultMap="AthletesResult">
+    select id, stu_num, name, sex, college_id, class_name, isteam from athletes where id in (select athletes_id from connect where match_project_id = (select id from match_project where name = #{name})) order by id;
+ </select>
+ <select id="queryAthleteById" parameterType="com.example.sports.bean.Athletes" resultMap="AthletesResult">
+    select id, stu_num, name, sex, college_id, class_name, isteam from athletes where id = #{id}
+ </select>
+ <insert id="insertAthletes" parameterType="com.example.sports.bean.Athletes">
+    insert into athletes(stu_num, name, sex, college_id, class_name, isteam) values(#{stuNum},#{name},#{sex},#{collegeId},#{className},#{isTeam})
+ </insert>
+ <delete id="deleteAthletesByStuNum" parameterType="String">
+ 	delete from athletes where stu_num = #{_parameter}
+ </delete>
+  <delete id="deleteAthletesByName" parameterType="String">
+ 	delete from athletes where name = #{_parameter}
+ </delete>
+  
+ <update id="updateAthletesByStuNum" parameterType="com.example.sports.bean.UpdateAthletes">
+ 	update athletes set stu_num = #{stuNum}, name = #{name}, sex = #{sex}, college_id = #{collegeId}, class_name = #{className} where stu_num = #{oldStu}
+</update>
+ <update id="updateAthletesByName" parameterType="com.example.sports.bean.UpdateAthletes">
+ 	update athletes set stu_num = #{stuNum}, name = #{name}, sex = #{sex}, college_id = #{collegeId}, class_name = #{className} where name = #{oldStu}
+</update>
+
+ <!--
+<delete id="deleteOne" parameterType="int">
+ delete from book where id = #{_parameter}
+</delete>
+<delete id="deleteBatch" parameterType="java.util.List">
+ delete from book where id in(
+  <foreach collection="list" item="item" separator=",">
+   #{item}
+  </foreach>
+ )
+</delete>
+-->
+</mapper>

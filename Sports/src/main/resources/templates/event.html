@@ -1,0 +1,127 @@
+<!doctype html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="../static/css/event_style.css" />
+<script src="../static/js/jquery-2.2.3.min.js"></script>
+<script src="../static/js/event.js"></script>
+
+<body style="height:-webkit-fill-available">
+<div id="base" th:replace="'base'"></div>
+
+<script>
+    $("#base").load("base.html");
+</script>
+<div class="tabl" style="position: relative" >
+
+  <table class="table table-striped  table-bordered  table-hover text-center">
+
+    <h3>赛事预告</h3>
+
+    <thead>
+    <tr>
+      <th class="text-center">时间</th>
+      <th class="text-center">比赛项目</th>
+      <th class="text-center">赛次</th>
+    </tr>
+    </thead>
+    <tbody id="matches">
+
+    </tbody>
+
+
+
+  </table>
+  <table style="position: fixed;
+bottom:50px;
+l
+">
+    <!--分页处理-->
+    <tfoot>
+    <tr>
+      <td colspan="6" align="center">
+        <ul class="pagination" id="pageContent">
+
+        </ul>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+
+  <br/>
+  <!--<div class="table-responsive  tabl"></div>-->
+</div>
+
+
+<script>
+
+    //分页查询
+    queryData();
+    function queryData(pageNo) {
+        $.ajax({
+            method:'post',
+            url:'/event/queryData',
+            data:{
+                "pageNo":pageNo
+            },
+            success:function (result) {
+                if(!result.success){
+                    alert("系统错误");
+                    result;
+                }
+                var page=result.data;
+                var matches=page.data;
+                var content="";
+                $.each(matches,function(i,match){
+                    content+='<tr>'
+                    content+='<td>'+(match.mat_pretime)+'</td>'
+                    content+='<td>'+(match.mat_name)+'</td>'
+                    content+='<td>'+(match.mat_id)+'</td>'
+                    // content+='</tr>'
+                    // content+='<tr>'
+                    // content+='  <td><a name="go"></a><td>'
+                    // content+='</tr>'
+                });
+                $("#matches").html(content);
+
+                var pageContent='';
+                //分页
+                if(page.pageNo>1){
+                    pageContent +='<li><a href="#" onclick="queryData('+ (page.pageNo-1) +')">上一页</a></li>';
+                }
+                if(page.pageNo==1){
+                    pageContent +='<li class="disabled"><a href="#">上一页</a></li>';
+                }
+                for (var i=page.startNo;i<=page.endNo;i++){
+                    if(page.pageNo==i){
+                        pageContent +='<li class="active"><a href="#">'+ i +'<span class="sr-only">(current)</span></a></li>';
+                    }else{
+                        pageContent +='<li><a href="#" onclick="queryData('+ i +')">'+ i +'</a></li>';
+                    }
+
+                }
+                if(page.pageNo<page.totalNo){
+                    pageContent +='<li><a href="#" onclick="queryData('+ (page.pageNo+1) +')">下一页</a></li>';
+                }
+                if(page.pageNo==page.totalNo){
+                    pageContent +='<li class="disabled"><a href="#">下一页</a></li>';
+                }
+                $("#pageContent").html(pageContent);
+                // location.href="#go";
+
+            },
+            error:function () {
+
+            }
+        })
+    }
+</script>
+
+
+
+</body>
+
+</html>
+
+
+
+
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.sports.mapper.AthletesMapper">
+
+
+    <select id="queryDataByIn" resultType="Athletes">
+        SELECT ath.*,col.col_name as college_name FROM athletes ath,college col
+        WHERE ath.ath_college=col.col_id and ath.ath_id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+
+
+</mapper>
+

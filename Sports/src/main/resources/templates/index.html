@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" type="text/css" href="../static/css/rank_style.css"/>
+    <script src="../static/js/rank.js"></script>
+    <div id="base" th:replace="'base'"></div>
+    <script src="../static/js/jquery-2.2.3.min.js"></script>
+    <script>
+        $("#base").load("base.html");
+    </script>
+    <h3 style="
+    background: rgba(255, 255, 255, 0.64);
+    width: 355px;
+    margin: 10px auto;
+    padding: 6px;
+    height: 36px;
+    border-radius: 25px;
+">校运会积分排行榜</h3>
+    <div id="colleges_box"></div>
+
+    <script>
+        //查询所有学院
+        getColleges();
+        function getColleges() {
+            $.ajax({
+                method:"post",
+                url:"http://localhost:8902/index/getColleges",
+                data:{},
+                success:function (result) {
+                    console.log(result);
+                    if(!result.success){
+                        alert("系统错误");
+                    }
+                    // alert(result.data);
+                    var colleges=result.data;
+                    var content="";
+                    $.each(colleges,function(i,college){
+                        let medal_count = parseInt(college.col_gold)+parseInt(college.col_silver)+parseInt(college.col_copper);
+                        content+='<div class="college">'
+                        content+='<img class="ranking" src="../static/img/college_rank/'+(i+1)+'.jpg" style="position: relative"/>'
+                        content+='<div class="college_name">'+(college.col_name)+'</div>'
+                        content+='<div class="score">总积分<br/><span>'+(college.col_integral)+'</span></div>'
+                        content+=`<div class="score" style="right:20px">奖牌数<br/><span>${medal_count}</span></div>`;
+
+                        content+='<hr class="line"/>'
+                        content+='<img class="gold" src="../static/img/college_rank/gold.jpg"/>'
+                        content+='<div class="gold_amount">'+(college.col_gold)+'</div>'
+                        content+='<img class="silver" src="../static/img/college_rank/silver.jpg"/>'
+                        content+='<div class="silver_amount">'+(college.col_silver)+'</div>'
+                        content+='<img class="copper" src="../static/img/college_rank/copper.jpg"/>'
+                        content+='<div class="copper_amount">'+(college.col_copper)+'</div>'
+                        content+='</div>'
+                    });
+                    // $(".college").html(content);
+                    colleges_box.innerHTML=content;
+                },
+                error:function () {
+                    alert("系统出错");
+                }
+            })
+        }
+    </script>
+
+</html>
+
+

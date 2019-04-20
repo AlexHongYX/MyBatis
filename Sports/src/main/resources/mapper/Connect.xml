@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2009-2012 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间 -->
+<mapper namespace="com.example.sports.dao.ConnectInterface">
+
+
+  <resultMap type="com.example.sports.bean.Connect" id="ConnectResult">
+    <result column="athletes_id" jdbcType="INTEGER" property="athletesId"/>
+    <result column="college_id" jdbcType="INTEGER" property="collegeId"/>
+    <result column="rank" jdbcType="INTEGER" property="rank"/>
+    <result column="grade" jdbcType="VARCHAR" property="grade"/>
+  </resultMap>
+   <resultMap type="com.example.sports.bean.MedalNum" id="MedalNumResult">
+    <result column="college_id" jdbcType="INTEGER" property="collegeId"/>
+    <result column="count(*)" jdbcType="INTEGER" property="num"/>
+  </resultMap>
+  
+ <select id="queryGoldNumList" resultMap="MedalNumResult">
+    select college_id, count(*) from connect where rank = 1 group by college_id order by college_id
+ </select>
+  <select id="querySilverNumList" resultMap="MedalNumResult">
+    select college_id, count(*) from connect where rank = 2 group by college_id order by college_id
+ </select>
+  <select id="queryCopperNumList" resultMap="MedalNumResult">
+    select college_id, count(*) from connect where rank = 3 group by college_id order by college_id
+ </select>
+ <select id="queryConnectList" resultMap="ConnectResult">
+    select athletes_id, match_project_id, college_id, rank, grade from connect order by college_id
+ </select>
+ <select id="queryRank" parameterType="com.example.sports.bean.MatchProject" resultMap="ConnectResult">
+    select athletes_id, match_project_id, college_id, rank, grade from connect where match_project_id = #{id} order by rank
+ </select>
+ <insert id="insertConnect" parameterType="com.example.sports.bean.Connect">
+    insert into connect(athletes_id, match_project_id,college_id) values(#{athletesId}, #{matchProjectId}, #{collegeId})
+ </insert>
+ <update id="updateConnect" parameterType="com.example.sports.bean.UpdateConnect">
+ 	update connect set athletes_id = #{athletesId}, match_project_id = #{matchProjectId}, college_id = #{collegeId}, rank = #{rank}, grade = #{grade} where athletes_id = #{oldAthletesId} and match_project_id = #{oldMatchProjectId}
+</update>
+ <!--
+<delete id="deleteOne" parameterType="int">
+ delete from book where id = #{_parameter}
+</delete>
+<delete id="deleteBatch" parameterType="java.util.List">
+ delete from book where id in(
+  <foreach collection="list" item="item" separator=",">
+   #{item}
+  </foreach>
+ )
+</delete>
+-->
+</mapper>
