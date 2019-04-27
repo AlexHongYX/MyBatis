@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--上面的配置一定全为mapper-->
+
+<mapper namespace="com.fehead.Dao.BuildDao">
+
+    <!--&lt;!&ndash;将数据库中的字段与Java对象的属性对应起来&ndash;&gt;-->
+    <!--<resultMap id="BuildResult" type="com.fehead.bean.Build">-->
+        <!--<id column="build_buildnumber_id" jdbcType="INTEGER" property="build_buildnumber_id"/>-->
+        <!--<result column="build" jdbcType="VARCHAR" property="build"/>-->
+        <!--<result column="buildnumber" jdbcType="VARCHAR" property="buildnumber"/>-->
+    <!--</resultMap>-->
+
+    <!--select的id与接口BuildDao的方法名对应起来-->
+    <select id="getBuild" parameterType="com.fehead.bean.Build" resultType="java.lang.String">
+        SELECT build_buildnumber_id from build_buildnumber WHERE build=#{build} and buildnumber=#{buildnumber}
+    </select>
+</mapper>

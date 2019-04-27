@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fehead.Dao.FindClassroomsDao">
+    <select id="getClassrooms" parameterType="com.fehead.bean.FindClassroomBean" resultType="java.lang.String">
+        select classroom from buildlevel_classroom where buildlevel_classroom_id in (
+        select classroom_last1.buildlevel_classroom from classroom_last1
+        where classroom_last1.week_start_end_id in (
+        select week_start_end.week_start_end_id from week_start_end where
+        week_start_end.start <![CDATA[<=]]> #{week}and week_start_end.end <![CDATA[>=]]> #{week}) and
+        classroom_last1.day_time_id=#{day_time_id} and
+        classroom_last1.build_buildnumber_id=#{build_buildnumber_id} and
+        classroom_last1.buildlevel_classroom in (select buildlevel_classroom_id from buildlevel_classroom where buildlevel=#{buildlevel}))
+    </select>
+</mapper>

@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:p="http://www.springframework.org/schema/p"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!--配置整合mybatis过程-->
+    <!--导入jdbc配置文件，方便在之后的配置文件中使用spEL表达式访问jdbc.properties中的内容-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!--配置dbcp连接池-->
+    <bean id="dateSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="username" value="${jdbc_username}"/>
+        <property name="password" value="${jdbc_password}"/>
+        <property name="url" value="${jdbc_url}"/>
+        <property name="driverClassName" value="${jdbc_driverClassName}"/>
+    </bean>
+
+        <!-- 配置sqlSessionFactory，SqlSessionFactoryBean是用来产生sqlSessionFactory的 -->
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <!-- 加载mybatis的全局配置文件，放在classpath下的mybatis文件夹中 -->
+            <property name="configLocation" value="classpath:mybatis-config.xml" />
+            <!-- 加载数据源，使用上面配置好的数据源 -->
+            <property name="dataSource" ref="dateSource" />
+            <property name="mapperLocations" value="classpath:mapping/*.xml"/>
+        </bean>
+
+        <!--p:dataSource-ref="dateSource"-->
+        <!--p:configLocation="classpath:mybatis-config.xml"-->
+        <!--p:mapperLocations="classpath:/mapping/*.xml"/>-->
+
+
+
+    <!--由spring创建dao的实现类对象，即mapper对象，从上面的session工厂中，自动创建出所有mapper包中的mapper实现类对象
+        相当于动态代理的创建了dao层接口的实例化对象，在service层中使用@Autowired就可以用-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.fehead.Dao"/>
+    </bean>
+
+
+
+          <!--p:basePackage="com.fehead.Dao"-->
+        <!--p:sqlSessionFactoryBeanName="sqlSessionFactory"/>-->
+
+
+
+
+
+
+</beans>

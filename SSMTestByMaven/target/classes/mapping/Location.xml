@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fehead.Dao.LocationDao">
+    <select id="getClassroom" parameterType="com.fehead.bean.Location" resultType="java.lang.String">
+        SELECT classroom from buildlevel_classroom WHERE buildlevel_classroom_id=#{buildlevel_classroom}
+        AND buildlevel=#{buildlevel}
+    </select>
+</mapper>

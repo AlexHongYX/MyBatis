@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fehead.Dao.StartEndDao">
+    <!--返回多组数据时，Dao层的接口用List<泛型>接收，MyBatis中resultType返回泛型。-->
+    <select id="getWeeks" parameterType="java.lang.Integer" resultType="java.lang.String">
+      SELECT week_start_end_id from week_start_end WHERE #{_parameter} BETWEEN start AND `end`
+    </select>
+
+</mapper>
